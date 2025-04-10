@@ -50,7 +50,7 @@ Each vulnerability has a dedicated route, code snippet, and explanation.
 
 ### 1. Clone the repo
 ```bash
-git clone https://github.com/yourusername/BreakTheFlask.git
+git clone https://github.com/DghostNinja/BreakTheFlask.git
 cd BreakTheFlask
 ```
 
@@ -58,3 +58,13 @@ cd BreakTheFlask
 ```bash
 pip install -r requirements.txt
 ```
+
+
+## Usage
+```bash
+python app.py
+```
+
+Open your browser and navigate to:
+http://localhost:5000
+
