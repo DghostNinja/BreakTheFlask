@@ -80,4 +80,4 @@ if __name__ == '__main__':
     open(os.path.join(UPLOAD_FOLDER, "bob.txt"), "w").write("Bob's Notes")
     open(os.path.join(UPLOAD_FOLDER, "admin.txt"), "w").write("Top Secret Admin Data")
 
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)
