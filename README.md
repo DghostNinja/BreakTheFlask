@@ -1,7 +1,7 @@
 
 # BreakTheFlask
 
-**BreakTheFlask** is a deliberately vulnerable Flask web application designed to help security researchers, ethical hackers, and bug bounty hunters learn and master the **OWASP Top 10** vulnerabilities in a hands-on way.
+**BreakTheFlask** contains a list of deliberately vulnerable Flask web application codes designed to help security researchers, ethical hackers, and bug bounty hunters learn and master the **OWASP Top 10** vulnerabilities in a hands-on way.
 
 Whether you're a beginner in application security or prepping for real-world bug bounty hunting, this repo is your playground.
 
@@ -68,3 +68,16 @@ python app.py
 Open your browser and navigate to:
 http://localhost:5000
 
+## Disclaimer
+
+BreakTheFlask is for educational purposes only.
+Do not deploy this app to production or use its code in live systems.
+Always hack responsibly and within legal boundaries.
+
+
+## License
+
+MIT License – do what you want, but give credit and don’t be evil.
+
+
+---
