@@ -28,7 +28,7 @@ def decrypt_ecb(data):
 
 @app.route("/")
 def index():
-    return """<h2>Crypto Failures Lab </h2><ul>
+    return """<h2>Crypto Failures Lab - BreakTheFlask </h2><ul>
         <li><a href='/login'>/login</a> - Get a token</li>
         <li><a href='/store_secret'>/store_secret</a> - Encrypt your secret</li>
         <li><a href='/view_secret?data=...'>/view_secret</a> - Decrypt secret (Guess the key!)</li>
