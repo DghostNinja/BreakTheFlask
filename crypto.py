@@ -10,6 +10,7 @@ import os
 app = Flask(__name__)
 
 FLAG = "flag{this_is_the_super_secret_flag}"
+ADMIN_FLAG = "flag{admin_access_granted_super_privileges}"
 
 JWT_SECRET = "supersecret"
 ENCRYPTION_KEY = b"ThisIsA16ByteKey"
@@ -37,6 +38,7 @@ def index():
         <li><a href='/auth_required'>/auth_required</a> - Authenticate using your token</li>
         <li><a href='/download/flag.txt?token=...'>/download/flag.txt</a> - Download the flag (if you have the token!)</li>
         <li><a href='/cookie_test'>/cookie_test</a> - Steal a session cookie</li>
+        <li><a href='/admin_panel'>/admin_panel</a> - Admin-only area</li>
     </ul>
     <p>Can you find the flag? Good luck!</p>"""
 
@@ -44,17 +46,12 @@ def index():
 def login():
     if request.method == "POST":
         username = request.form.get("username")
-        alg = request.form.get("alg", "HS256")
-        header = {"alg": alg, "typ": "JWT"}
-        payload = {"user": username}
-        if alg == "none":
-            token = jwt.encode(payload, key=None, algorithm=None, headers=header)
-        else:
-            token = jwt.encode(payload, JWT_SECRET, algorithm=alg)
+        role = "admin" if username.lower() == "admin" else "user"
+        payload = {"user": username, "role": role}
+        token = jwt.encode(payload, JWT_SECRET, algorithm="HS256")
         return jsonify({"token": token})
     return '''<form method="post">
         Username: <input name="username"><br>
-        Alg (optional, e.g. none): <input name="alg"><br>
         <button type="submit">Login</button></form>'''
 
 @app.route("/auth_required")
@@ -63,8 +60,22 @@ def auth_required():
     if not token:
         return "Missing token", 401
     try:
-        decoded = jwt.decode(token, JWT_SECRET, algorithms=["HS256", "none"], options={"verify_signature": False})
+        decoded = jwt.decode(token, JWT_SECRET, algorithms=["HS256"])
         return f"Welcome {decoded['user']}!"
+    except Exception as e:
+        return f"Invalid token: {str(e)}", 403
+
+@app.route("/admin_panel")
+def admin_panel():
+    token = request.headers.get("Authorization")
+    if not token:
+        return "Token required", 401
+    try:
+        decoded = jwt.decode(token, JWT_SECRET, algorithms=["HS256"])
+        if decoded.get("role") == "admin":
+            return f"<h2>Admin Panel</h2><p>Welcome, {decoded['user']}!</p><p>Here's your special flag: <b>{ADMIN_FLAG}</b></p>"
+        else:
+            return "Access denied: not an admin", 403
     except Exception as e:
         return f"Invalid token: {str(e)}", 403
 
@@ -118,7 +129,6 @@ def download(filename):
         return FLAG
     return f"Simulated secure download: {filename}"
 
-#Bonus: if oracle padding worked
 @app.route("/oracle", methods=["POST"])
 def oracle():
     data = request.json.get("data")
