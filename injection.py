@@ -34,7 +34,7 @@ def init_db():
 @app.route('/')
 def index():
     return """
-    <h1>💥 HTB-Style Vulnerable Web App</h1>
+    <h1> Injection Vulnerable Web App</h1>
     <p>This app contains multiple injection flaws for research purposes only.</p>
     <ul>
         <li><a href='/login'>SQL Injection (Login Form)</a></li>
